@@ -1,0 +1,48 @@
+---
+/**
+ * Exercise with the solution hidden in <details> and an optional link to sample code.
+ * Usage:
+ * <Challenge title="Exercise name" codeUrl="https://...">
+ *   Problem statement
+ *   <div slot="solution">Solution</div>
+ * </Challenge>
+ */
+import '../styles/swee-box.css';
+
+interface Props {
+	title: string;
+	codeUrl?: string;
+}
+
+const { title, codeUrl } = Astro.props;
+const t = Astro.locals.t;
+const label = t('swee.challenge');
+---
+
+<aside class="swee-box swee-challenge" aria-label={`${label}: ${title}`}>
+	<p class="swee-box-title">{label}</p>
+	<p class="swee-challenge-name">{title}</p>
+	<slot />
+	{Astro.slots.has('solution') && (
+		<details>
+			<summary>{t('swee.challenge.showSolution')}</summary>
+			<slot name="solution" />
+		</details>
+	)}
+	{codeUrl && (
+		<p>
+			<a href={codeUrl}>{t('swee.challenge.sampleCode')}</a>
+		</p>
+	)}
+</aside>
+
+<style>
+	.swee-challenge {
+		--swee-tint: var(--sl-color-purple-high);
+	}
+	.swee-challenge-name {
+		font-weight: 600;
+		color: var(--sl-color-white);
+		letter-spacing: -0.005em;
+	}
+</style>

@@ -1,0 +1,146 @@
+---
+/**
+ * Override of Starlight's `PageTitle`: keeps the default <h1> and adds right below it
+ * - the verification status badge (`verification`)
+ * - the "Recommended reading" list (`prerequisites`)
+ * Text comes from UI strings for the page's locale (Astro.locals.t).
+ */
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import { getEntry } from 'astro:content';
+
+const route = Astro.locals.starlightRoute;
+const t = Astro.locals.t;
+const { verification, prerequisites, template } = route.entry.data;
+const showMeta = template !== 'splash';
+
+const localePrefix = route.locale ? `${route.locale}/` : '';
+
+const prereqLinks = await Promise.all(
+	prerequisites.map(async (raw) => {
+		const slug = raw.replace(/^\/+|\/+$/g, '');
+		// Prefer the same-language entry; fall back to the root (English) one.
+		const entry =
+			(await getEntry('docs', `${localePrefix}${slug}`)) ?? (await getEntry('docs', slug));
+		return {
+			href: `/${localePrefix}${slug}/`,
+			title: entry?.data.title ?? slug,
+		};
+	}),
+);
+---
+
+<Default />
+{showMeta && (
+	<div class="swee-meta">
+		<p class="swee-status">
+			<span class="sr-only">{t('swee.verification.label')}: </span>
+			<span class="swee-badge" data-status={verification}>
+				{t(`swee.verification.${verification}`)}
+			</span>
+			{route.isFallback && <span class="swee-note">{t('swee.verification.fallbackNote')}</span>}
+		</p>
+		{prereqLinks.length > 0 && (
+			<nav class="swee-prereq" aria-label={t('swee.prerequisites')}>
+				<span class="swee-prereq-label">{t('swee.prerequisites')}:</span>
+				<ul>
+					{prereqLinks.map((p) => (
+						<li>
+							<a href={p.href}>{p.title}</a>
+						</li>
+					))}
+				</ul>
+			</nav>
+		)}
+	</div>
+)}
+
+<style>
+	.swee-meta {
+		margin-top: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		font-size: var(--sl-text-sm);
+	}
+	.swee-status {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem 0.75rem;
+		margin: 0;
+	}
+	.swee-badge {
+		--tint-bg: var(--sl-color-orange-low);
+		--tint-fg: var(--sl-color-orange-high);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		padding: 0.125rem 0.625rem;
+		border-radius: 999px;
+		font-size: var(--sl-text-xs);
+		font-weight: 600;
+		line-height: 1.6;
+		background-color: var(--tint-bg);
+		color: var(--tint-fg);
+	}
+	.swee-badge::before {
+		content: '';
+		inline-size: 0.375rem;
+		block-size: 0.375rem;
+		border-radius: 999px;
+		background-color: currentColor;
+	}
+	.swee-badge[data-status='claude-checked'] {
+		--tint-bg: var(--sl-color-blue-low);
+		--tint-fg: var(--sl-color-blue-high);
+	}
+	.swee-badge[data-status='approved'] {
+		--tint-bg: var(--sl-color-green-low);
+		--tint-fg: var(--sl-color-green-high);
+	}
+	.swee-note {
+		color: var(--sl-color-gray-3);
+	}
+	.swee-prereq {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: center;
+	}
+	.swee-prereq-label {
+		font-weight: 600;
+		color: var(--sl-color-gray-3);
+	}
+	.swee-prereq ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.swee-prereq a {
+		display: inline-block;
+		padding: 0.25rem 0.75rem;
+		border-radius: 999px;
+		background-color: var(--swee-surface);
+		color: var(--sl-color-text-accent);
+		font-weight: 500;
+		text-decoration: none;
+		transition:
+			background-color 0.15s ease,
+			transform var(--swee-dur) var(--swee-ease);
+	}
+	.swee-prereq a:hover {
+		background-color: var(--swee-surface-hover);
+	}
+	.swee-prereq a:active {
+		transform: scale(0.96);
+		transition-duration: 0.08s;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.swee-prereq a:active {
+			transform: none;
+		}
+	}
+</style>

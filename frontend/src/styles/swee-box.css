@@ -1,0 +1,64 @@
+/*
+ * Shared styles for Swee content boxes (YouWillLearn, Pitfall, InterviewQuestion, Challenge, Recap, TrueFalseQuiz).
+ * Grouped-surface cards: a soft fill instead of borders, and a tinted kicker that names the box type.
+ * Each box sets `--swee-tint` (a Starlight "-high" colour, readable in both light and dark mode).
+ */
+.swee-box {
+	--swee-tint: var(--sl-color-text-accent);
+	background-color: var(--swee-surface);
+	border-radius: var(--swee-radius-lg);
+	padding: 1.25rem 1.5rem;
+}
+
+@media (max-width: 30rem) {
+	.swee-box {
+		padding: 1rem 1.125rem;
+		border-radius: var(--swee-radius-md);
+	}
+}
+
+.swee-box-title {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin: 0;
+	font-size: var(--sl-text-sm);
+	font-weight: 600;
+	letter-spacing: 0.005em;
+	line-height: 1.4;
+	color: var(--swee-tint);
+}
+
+/* Small tinted dot before the kicker: a quiet type marker, not decoration. */
+.swee-box-title::before {
+	content: '';
+	flex-shrink: 0;
+	inline-size: 0.5rem;
+	block-size: 0.5rem;
+	border-radius: 999px;
+	background-color: currentColor;
+}
+
+.sl-markdown-content .swee-box > * + * {
+	margin-top: 0.75rem;
+}
+
+.swee-box > :last-child {
+	margin-bottom: 0;
+}
+
+/* Disclosures inside a card: no rail, the card already groups them. */
+.sl-markdown-content .swee-box details {
+	border-inline-start: none;
+	padding-inline-start: 0;
+	margin-inline-start: -0.25rem;
+}
+
+.sl-markdown-content .swee-box summary {
+	color: var(--sl-color-text-accent);
+	font-weight: 600;
+}
+
+.sl-markdown-content .swee-box details[open] > summary {
+	margin-bottom: 0.5rem;
+}

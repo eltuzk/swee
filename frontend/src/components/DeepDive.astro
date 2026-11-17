@@ -1,0 +1,70 @@
+---
+/**
+ * Collapsible block (<details>) for extra, optional knowledge.
+ * Usage: <DeepDive title="Title">Content</DeepDive>
+ */
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<details class="swee-deepdive">
+	<summary>
+		<span class="swee-deepdive-kicker">{Astro.locals.t('swee.deepDive')}</span>
+		<span class="swee-deepdive-title">{title}</span>
+	</summary>
+	<div class="swee-deepdive-body">
+		<slot />
+	</div>
+</details>
+
+<style>
+	.swee-deepdive {
+		border-inline-start: none;
+		padding: 0;
+		background-color: var(--swee-surface);
+		border-radius: var(--swee-radius-lg);
+		transition: background-color 0.15s ease;
+	}
+	.swee-deepdive:not([open]):hover {
+		background-color: var(--swee-surface-hover);
+	}
+	.swee-deepdive > summary {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto auto;
+		column-gap: 0.25rem;
+		align-items: center;
+		margin: 0;
+		padding: 0.875rem 1.25rem;
+		border-radius: inherit;
+	}
+	/* The chevron (Starlight's summary::before) spans both rows, centred. */
+	.swee-deepdive > summary::before {
+		grid-row: 1 / span 2;
+		align-self: center;
+	}
+	.swee-deepdive[open] > summary {
+		margin-bottom: 0;
+	}
+	.swee-deepdive-kicker {
+		grid-column: 2;
+		font-size: var(--sl-text-xs);
+		font-weight: 600;
+		letter-spacing: 0.01em;
+		color: var(--sl-color-text-accent);
+	}
+	.swee-deepdive-title {
+		grid-column: 2;
+		color: var(--sl-color-white);
+		letter-spacing: -0.005em;
+	}
+	.swee-deepdive-body {
+		padding: 0 1.25rem 1.25rem 2.5rem;
+	}
+	.swee-deepdive-body > :global(* + *) {
+		margin-top: 0.75rem;
+	}
+</style>

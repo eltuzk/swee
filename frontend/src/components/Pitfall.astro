@@ -1,0 +1,77 @@
+---
+/**
+ * Common misconception box: the wrong statement struck through → the correct one.
+ * Usage: <Pitfall wrong="Wrong statement" right="Correct statement">Explanation (optional)</Pitfall>
+ */
+import '../styles/swee-box.css';
+
+interface Props {
+	wrong: string;
+	right: string;
+}
+
+const { wrong, right } = Astro.props;
+const t = Astro.locals.t;
+const label = t('swee.pitfall');
+---
+
+<aside class="swee-box swee-pitfall" aria-label={label}>
+	<p class="swee-box-title">{label}</p>
+	<p class="swee-pitfall-line">
+		<span class="swee-tag swee-tag-wrong">{t('swee.pitfall.wrong')}</span>
+		<del>{wrong}</del>
+	</p>
+	<p class="swee-pitfall-line">
+		<span class="swee-tag swee-tag-right">
+			<span aria-hidden="true">→ </span>
+			{t('swee.pitfall.right')}
+		</span>
+		<ins>{right}</ins>
+	</p>
+	{Astro.slots.has('default') && (
+		<div class="swee-pitfall-why">
+			<slot />
+		</div>
+	)}
+</aside>
+
+<style>
+	.swee-pitfall {
+		--swee-tint: var(--sl-color-orange-high);
+	}
+	.swee-pitfall-line {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 0.5rem;
+		align-items: baseline;
+	}
+	.swee-tag {
+		flex-shrink: 0;
+		font-size: var(--sl-text-xs);
+		font-weight: 600;
+		line-height: 1.6;
+		padding: 0 0.55rem;
+		border-radius: 999px;
+	}
+	.swee-tag-wrong {
+		color: var(--sl-color-red-high);
+		background-color: var(--sl-color-red-low);
+	}
+	.swee-tag-right {
+		color: var(--sl-color-green-high);
+		background-color: var(--sl-color-green-low);
+	}
+	del {
+		color: var(--sl-color-gray-3);
+		text-decoration-thickness: 1.5px;
+		text-decoration-color: var(--sl-color-red);
+	}
+	ins {
+		text-decoration: none;
+		color: var(--sl-color-white);
+		font-weight: 600;
+	}
+	.swee-pitfall-why {
+		color: var(--sl-color-gray-2);
+	}
+</style>

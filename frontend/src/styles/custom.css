@@ -1,0 +1,262 @@
+/*
+ * Swee theme on top of Starlight, in an Apple-like direction:
+ * neutral system greys, one blue accent, tight display type, translucent chrome
+ * with content scrolling underneath, instant press feedback, and motion that
+ * respects reduced-motion / reduced-transparency / increased-contrast settings.
+ *
+ * These rules are unlayered, so they win over Starlight's `@layer starlight.*` styles.
+ */
+
+/* ---------- Tokens: dark (Starlight's default) ---------- */
+:root {
+	--sl-font: 'Be Vietnam Pro';
+
+	--sl-color-white: #f5f5f7; /* strongest text */
+	--sl-color-gray-1: #e5e5ea;
+	--sl-color-gray-2: #c7c7cc; /* body text */
+	--sl-color-gray-3: #98989d; /* secondary text */
+	--sl-color-gray-4: #636366;
+	--sl-color-gray-5: #3a3a3c; /* hairlines */
+	--sl-color-gray-6: #1c1c1e; /* grouped surface */
+	--sl-color-gray-7: #161618;
+	--sl-color-black: #0c0c0d; /* page background */
+
+	--sl-color-accent-low: #0b2a4a;
+	--sl-color-accent: #0a84ff;
+	--sl-color-accent-high: #6cb6ff;
+
+	--sl-color-bg-nav: var(--sl-color-black);
+	--sl-color-bg-sidebar: var(--sl-color-gray-7);
+	--sl-color-hairline-shade: rgb(255 255 255 / 0.08);
+	--sl-color-hairline-light: rgb(255 255 255 / 0.1);
+
+	/* Type: Vietnamese diacritics need a little more leading than Latin-only text. */
+	--sl-text-body: 1.0625rem;
+	--sl-line-height: 1.7;
+	--sl-line-height-headings: 1.15;
+
+	/* Surfaces and motion */
+	--swee-surface: var(--sl-color-gray-6);
+	--swee-surface-hover: #242427;
+	--swee-radius-lg: 1.125rem;
+	--swee-radius-md: 0.75rem;
+	--swee-material: rgb(12 12 13 / 0.72);
+	/* Close to a critically damped spring (no overshoot), response ≈ 0.35s. */
+	--swee-ease: cubic-bezier(0.32, 0.72, 0, 1);
+	--swee-dur: 0.35s;
+
+	interpolate-size: allow-keywords;
+}
+
+/* ---------- Tokens: light ---------- */
+:root[data-theme='light'] {
+	--sl-color-white: #1d1d1f;
+	--sl-color-gray-1: #2c2c2e;
+	--sl-color-gray-2: #3a3a3c;
+	--sl-color-gray-3: #6e6e73;
+	--sl-color-gray-4: #86868b;
+	--sl-color-gray-5: #d2d2d7;
+	--sl-color-gray-6: #f5f5f7;
+	--sl-color-gray-7: #fbfbfd;
+	--sl-color-black: #ffffff;
+
+	--sl-color-accent-low: #e8f1fd;
+	--sl-color-accent: #0071e3;
+	--sl-color-accent-high: #004f9e;
+
+	--sl-color-bg-nav: var(--sl-color-black);
+	--sl-color-bg-sidebar: var(--sl-color-gray-7);
+	--sl-color-hairline-shade: rgb(0 0 0 / 0.08);
+	--sl-color-hairline-light: rgb(0 0 0 / 0.08);
+
+	--swee-surface: #f5f5f7;
+	--swee-surface-hover: #ececf0;
+	--swee-material: rgb(255 255 255 / 0.72);
+}
+
+/* ---------- Typography ---------- */
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+/* Tracking is size-specific: tighten as type grows, leave body near 0. */
+.content-panel h1,
+.hero h1 {
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	line-height: 1.08;
+}
+.sl-markdown-content h2 {
+	font-weight: 700;
+	letter-spacing: -0.022em;
+}
+.sl-markdown-content h3 {
+	font-weight: 600;
+	letter-spacing: -0.012em;
+}
+.sl-markdown-content :is(h4, h5, h6) {
+	letter-spacing: -0.005em;
+}
+
+/* ---------- Materials: translucent chrome, content scrolls underneath ---------- */
+.page > .header,
+mobile-starlight-toc nav {
+	background-color: var(--swee-material);
+	-webkit-backdrop-filter: saturate(180%) blur(20px);
+	backdrop-filter: saturate(180%) blur(20px);
+	border-bottom-color: var(--sl-color-hairline-shade);
+}
+
+/* ---------- Sidebar ---------- */
+#starlight__sidebar a {
+	border-radius: 0.5rem;
+	transition: background-color 0.15s ease;
+}
+#starlight__sidebar a:not([aria-current='page']):hover {
+	background-color: var(--swee-surface-hover);
+	color: var(--sl-color-white);
+}
+#starlight__sidebar a[aria-current='page'],
+#starlight__sidebar a[aria-current='page']:hover,
+#starlight__sidebar a[aria-current='page']:focus {
+	background-color: var(--sl-color-accent-low);
+	color: var(--sl-color-text-accent);
+	font-weight: 600;
+}
+#starlight__sidebar summary .large {
+	font-size: var(--sl-text-sm);
+	font-weight: 600;
+	color: var(--sl-color-gray-3);
+	letter-spacing: 0.01em;
+}
+
+/* ---------- Press feedback: on pointer-down, instant ---------- */
+:is(.sl-link-button, .pagination-links a, button[data-open-modal], .swee-topic):active {
+	transform: scale(0.97);
+	transition: transform 0.08s ease-out;
+}
+.sl-link-button,
+.pagination-links a,
+.swee-topic {
+	transition:
+		transform var(--swee-dur) var(--swee-ease),
+		background-color 0.15s ease;
+}
+
+/* ---------- Buttons, search, pagination ---------- */
+.sl-link-button {
+	font-weight: 600;
+	letter-spacing: -0.005em;
+}
+.sl-link-button.primary {
+	background-color: var(--sl-color-accent);
+	border-color: var(--sl-color-accent);
+	color: #fff;
+}
+.sl-link-button.primary:hover {
+	background-color: var(--sl-color-accent);
+	border-color: var(--sl-color-accent);
+	color: #fff;
+	filter: brightness(1.08);
+}
+button[data-open-modal] {
+	border-radius: 999px;
+}
+.pagination-links a {
+	border-radius: var(--swee-radius-lg);
+	border-color: transparent;
+	background-color: var(--swee-surface);
+	box-shadow: none;
+}
+.pagination-links a:hover {
+	border-color: transparent;
+	background-color: var(--swee-surface-hover);
+}
+
+/* ---------- Disclosure (<details>): animated height, interruptible ---------- */
+.sl-markdown-content details::details-content {
+	block-size: 0;
+	overflow: clip;
+	transition:
+		block-size var(--swee-dur) var(--swee-ease),
+		content-visibility var(--swee-dur) allow-discrete;
+}
+.sl-markdown-content details[open]::details-content {
+	block-size: auto;
+}
+.sl-markdown-content summary::before {
+	transition: transform var(--swee-dur) var(--swee-ease);
+}
+
+/* ---------- Splash / home ---------- */
+.hero {
+	grid-template-columns: 1fr;
+	padding-block: clamp(3rem, 2rem + 8vmin, 7rem) clamp(1.5rem, 1rem + 3vmin, 3rem);
+}
+.hero .stack,
+.hero .copy {
+	align-items: center;
+	text-align: center;
+}
+.hero .actions {
+	justify-content: center;
+}
+:root[data-has-hero] .sl-markdown-content > p {
+	text-align: center;
+	color: var(--sl-color-gray-3);
+}
+.hero h1 {
+	font-size: clamp(2.75rem, 1.5rem + 6vw, 5rem);
+	line-height: 1.04;
+	letter-spacing: -0.04em;
+}
+.hero .tagline {
+	font-size: clamp(1.125rem, 1rem + 0.8vw, 1.5rem);
+	line-height: 1.45;
+	letter-spacing: -0.01em;
+	color: var(--sl-color-gray-3);
+	max-width: 36ch;
+}
+
+/* ---------- Code blocks ---------- */
+.expressive-code .frame {
+	border-radius: var(--swee-radius-md);
+}
+
+/* ---------- Accessibility preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--swee-dur: 0.01s;
+	}
+	:is(.sl-link-button, .pagination-links a, button[data-open-modal], .swee-topic):active {
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.page > .header,
+	mobile-starlight-toc nav {
+		background-color: var(--sl-color-bg-nav);
+		-webkit-backdrop-filter: none;
+		backdrop-filter: none;
+	}
+}
+
+@media (prefers-contrast: more) {
+	:root {
+		--sl-color-hairline-shade: var(--sl-color-gray-4);
+		--sl-color-hairline-light: var(--sl-color-gray-4);
+	}
+	.page > .header,
+	mobile-starlight-toc nav {
+		background-color: var(--sl-color-bg-nav);
+		backdrop-filter: none;
+	}
+	.swee-box,
+	.pagination-links a,
+	.swee-topic {
+		border: 1px solid var(--sl-color-gray-4);
+	}
+}

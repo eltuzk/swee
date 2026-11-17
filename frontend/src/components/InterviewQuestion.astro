@@ -1,0 +1,34 @@
+---
+/**
+ * Interview question; the answer is revealed on click (<details>).
+ * Usage: <InterviewQuestion question="Question?">Answer</InterviewQuestion>
+ */
+import '../styles/swee-box.css';
+
+interface Props {
+	question: string;
+}
+
+const { question } = Astro.props;
+const t = Astro.locals.t;
+const label = t('swee.interview');
+---
+
+<aside class="swee-box swee-interview" aria-label={label}>
+	<p class="swee-box-title">{label}</p>
+	<p class="swee-interview-q">{question}</p>
+	<details>
+		<summary>{t('swee.interview.showAnswer')}</summary>
+		<slot />
+	</details>
+</aside>
+
+<style>
+	.swee-interview {
+		--swee-tint: var(--sl-color-blue-high);
+	}
+	.swee-interview-q {
+		font-weight: 600;
+		color: var(--sl-color-white);
+	}
+</style>

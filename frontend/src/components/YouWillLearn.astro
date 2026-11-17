@@ -1,0 +1,17 @@
+---
+/**
+ * "You will learn" list shown at the top of a lesson.
+ * Usage: <YouWillLearn>
+ *   - Point 1
+ *   - Point 2
+ * </YouWillLearn>
+ */
+import '../styles/swee-box.css';
+
+const label = Astro.locals.t('swee.youWillLearn');
+---
+
+<aside class="swee-box swee-learn" aria-label={label}>
+	<p class="swee-box-title">{label}</p>
+	<slot />
+</aside>

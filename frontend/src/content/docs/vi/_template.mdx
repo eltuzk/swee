@@ -1,0 +1,74 @@
+---
+title: '[TODO: Tiêu đề bài]'
+description: '[TODO: Mô tả ngắn 1 câu, dùng cho SEO và kết quả tìm kiếm]'
+verification: unverified
+sources:
+  - '[TODO: link tài liệu chính thức]'
+prerequisites:
+  - database-design/data-modeling
+sidebar:
+  hidden: true
+pagefind: false
+---
+
+{/* Template for every lesson. Copy into the group folder, rename to the slug, replace every [TODO: ...]. */}
+
+import YouWillLearn from '@components/YouWillLearn.astro';
+import Pitfall from '@components/Pitfall.astro';
+import DeepDive from '@components/DeepDive.astro';
+import InterviewQuestion from '@components/InterviewQuestion.astro';
+import Challenge from '@components/Challenge.astro';
+import Recap from '@components/Recap.astro';
+import TrueFalseQuiz from '@components/TrueFalseQuiz.tsx';
+
+<YouWillLearn>
+  - [TODO: điều thứ nhất người đọc làm được sau bài]
+  - [TODO: điều thứ hai]
+  - [TODO: điều thứ ba]
+</YouWillLearn>
+
+## [TODO: Phần 1]
+
+[TODO: đoạn mở đầu của phần 1.]
+
+```ts title="src/[TODO-ten-file].ts"
+// [TODO: code minh họa]
+```
+
+<Pitfall wrong="[TODO: câu hiểu lầm]" right="[TODO: câu đúng]">
+  [TODO: giải thích ngắn vì sao, kèm nguồn nếu có.]
+</Pitfall>
+
+<DeepDive title="[TODO: tiêu đề phần đào sâu]">
+  [TODO: kiến thức bổ sung, không bắt buộc để hiểu bài.]
+</DeepDive>
+
+## [TODO: Phần 2]
+
+[TODO: nội dung phần 2.]
+
+<TrueFalseQuiz
+  client:visible
+  locale="vi"
+  items={[
+    { claim: '[TODO: nhận định 1]', truth: true, explanation: '[TODO: giải thích 1]' },
+    { claim: '[TODO: nhận định 2]', truth: false, explanation: '[TODO: giải thích 2]' },
+  ]}
+/>
+
+<InterviewQuestion question="[TODO: câu hỏi phỏng vấn]">
+  [TODO: đáp án gợi ý.]
+</InterviewQuestion>
+
+<Challenge title="[TODO: tên bài tập]" codeUrl="https://example.com/TODO-link-code-mau">
+  [TODO: đề bài.]
+
+  <div slot="solution">
+    [TODO: lời giải.]
+  </div>
+</Challenge>
+
+<Recap>
+  - [TODO: ý chính 1]
+  - [TODO: ý chính 2]
+</Recap>

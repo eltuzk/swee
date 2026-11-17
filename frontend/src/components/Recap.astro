@@ -1,0 +1,22 @@
+---
+/**
+ * End-of-lesson summary.
+ * Usage: <Recap>
+ *   - Key point 1
+ * </Recap>
+ */
+import '../styles/swee-box.css';
+
+const label = Astro.locals.t('swee.recap');
+---
+
+<aside class="swee-box swee-recap" aria-label={label}>
+	<p class="swee-box-title">{label}</p>
+	<slot />
+</aside>
+
+<style>
+	.swee-recap {
+		--swee-tint: var(--sl-color-green-high);
+	}
+</style>

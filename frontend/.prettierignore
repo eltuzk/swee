@@ -1,0 +1,6 @@
+dist
+.astro
+node_modules
+package-lock.json
+# Prettier collapses Markdown lists inside MDX components onto one line, so skip content files.
+src/content/**/*.mdx
