@@ -1,6 +1,6 @@
 /*
  * Swee theme on top of Starlight, in an Apple-like direction:
- * neutral system greys, one blue accent, tight display type, translucent chrome
+ * neutral system greys, one red accent, tight display type, translucent chrome
  * with content scrolling underneath, instant press feedback, and motion that
  * respects reduced-motion / reduced-transparency / increased-contrast settings.
  *
@@ -21,9 +21,9 @@
 	--sl-color-gray-7: #161618;
 	--sl-color-black: #0c0c0d; /* page background */
 
-	--sl-color-accent-low: #0b2a4a;
-	--sl-color-accent: #0a84ff;
-	--sl-color-accent-high: #6cb6ff;
+	--sl-color-accent-low: #3d0d16;
+	--sl-color-accent: #fa2d48;
+	--sl-color-accent-high: #ff6f7f;
 
 	--sl-color-bg-nav: var(--sl-color-black);
 	--sl-color-bg-sidebar: var(--sl-color-gray-7);
@@ -60,9 +60,9 @@
 	--sl-color-gray-7: #fbfbfd;
 	--sl-color-black: #ffffff;
 
-	--sl-color-accent-low: #e8f1fd;
-	--sl-color-accent: #0071e3;
-	--sl-color-accent-high: #004f9e;
+	--sl-color-accent-low: #fde8eb;
+	--sl-color-accent: #e8193c;
+	--sl-color-accent-high: #a8102b;
 
 	--sl-color-bg-nav: var(--sl-color-black);
 	--sl-color-bg-sidebar: var(--sl-color-gray-7);
